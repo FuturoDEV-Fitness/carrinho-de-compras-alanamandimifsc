@@ -39,5 +39,18 @@ class ProductController extends Database {
             return res.status(400).json({ message: error.message });
         }
     }
+
+    async indexComplete(req, res) {
+        try {
+            const products = await this.database.query('SELECT p.id, p.name, p.amount, p.color, p.voltage, p.description, c.name as categoria FROM products p join categories c on p.category_id = c.id where p.id = $1', [req.params.id]);
+            if (products.rowCount === 0) {
+                return res.status(404).json({ message: 'Nenhum produto cadastrado com esse ID' });
+            }
+            return res.status(200).json(products.rows[0]);
+        } catch (error) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
 }
+
 module.exports = new ProductController();
