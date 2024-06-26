@@ -27,5 +27,17 @@ class ProductController extends Database {
         }
 
     }
+
+    async index(req, res) {
+        try {
+            const products = await this.database.query('SELECT * FROM products');
+            if (products.rowCount === 0) {
+                return res.status(404).json({ message: 'Nenhum produto cadastrado' });
+            }
+            return res.status(200).json(products.rows);
+        } catch (error) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
 }
 module.exports = new ProductController();
