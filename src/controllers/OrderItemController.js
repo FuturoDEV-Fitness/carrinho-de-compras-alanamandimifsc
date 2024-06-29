@@ -1,9 +1,14 @@
 const Database = require('../database/connection');
 
 class OrderItemController extends Database {
-    async addItem(product_id, amount, price, order_id) {
-        console.log(product_id, amount, price, order_id);
+    async addItem(product_id, amount, order_id) {
         try {
+
+            const product = await this.database.query('SELECT * FROM products WHERE id = $1', [product_id]);
+            if (product.rowCount === 0) {
+                throw new Error('Produto não encontrado');
+            }
+            const price = product.rows[0].price;
             const query = `
                 INSERT INTO orders_itens (product_id, amount, price, order_id)
                 VALUES ($1, $2, $3, $4)
@@ -17,9 +22,9 @@ class OrderItemController extends Database {
     }
 
     async create(req, res) {
-        const { product_id, amount, price, client_id, order_id } = req.body;
+        const { product_id, amount, client_id, order_id } = req.body;
 
-        if (!product_id || !amount || !price || !client_id) {
+        if (!product_id || !amount || !client_id) {
             return res.status(400).json({ message: 'Dados incompletos' });
         }
 
@@ -36,10 +41,8 @@ class OrderItemController extends Database {
                 const orderResult = await this.database.query(orderQuery, [client_id]);
                 newOrderId = orderResult.rows[0].id;
             }
-            console.log(newOrderId);
 
-            const orderItem = await this.addItem(product_id, amount, price, newOrderId);
-            console.log(orderItem);
+            const orderItem = await this.addItem(product_id, amount, newOrderId);
             return res.status(201).json(orderItem.rows[0]);
         } catch (error) {
             return res.status(400).json({ message: error.message });

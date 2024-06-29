@@ -3,8 +3,6 @@ const Database = require('../database/connection');
 class OrderController extends Database {
     async create(req, res) {
         const { client_id, address, observations, id } = req.body;
-        console.log(client_id, address, observations, id);
-
         if (!client_id || !address || !observations || !id) {
             return res.status(400).json({ message: 'Dados incompletos' });
         }
