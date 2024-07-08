@@ -117,6 +117,18 @@ curl -X POST http://localhost:3000/order -H "Content-Type: application/json" -d 
 }'
 ```
 
+### Criar um Item de Pedido
+
+```bash
+curl -X POST http://localhost:3000/order-item \
+  -H "Content-Type: application/json" \
+  -d '{
+        "product_id": 1,
+        "amount": "2",
+        "client_id": 1,
+        "order_id": 12
+      }'
+
 
 
 
