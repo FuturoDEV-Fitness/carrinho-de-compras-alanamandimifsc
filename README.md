@@ -10,8 +10,8 @@ Para começar com esta API, siga as instruções abaixo:
 
 1. **Clonar o repositório:**
     ```bash
-    git clone <repository_url>
-    cd <repository_directory>
+    git clone <url do repositorio>
+    cd carrinho-de-compras-alanamandimifsc
     ```
 
 2. **Instalar as dependências:**
