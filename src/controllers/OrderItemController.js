@@ -23,6 +23,7 @@ class OrderItemController extends Database {
 
     async create(req, res) {
         const { product_id, amount, client_id, order_id } = req.body;
+        console.log(product_id, amount, client_id, order_id);
 
         if (!product_id || !amount || !client_id) {
             return res.status(400).json({ message: 'Dados incompletos' });
@@ -37,8 +38,8 @@ class OrderItemController extends Database {
             let newOrderId = order_id;
             if (order_id === 0) {
                 console.log('entrou');
-                const orderQuery = `INSERT INTO orders (client_id) VALUES ($1) RETURNING id;`;
-                const orderResult = await this.database.query(orderQuery, [client_id]);
+                const orderQuery = `INSERT INTO orders (client_id, status) VALUES ($1, $2) RETURNING id;`;
+                const orderResult = await this.database.query(orderQuery, [client_id, 'Em andamento']);
                 newOrderId = orderResult.rows[0].id;
             }
 

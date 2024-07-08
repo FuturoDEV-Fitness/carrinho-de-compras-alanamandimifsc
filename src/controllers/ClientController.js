@@ -13,5 +13,14 @@ class ClientsController extends Database {
         }
 
     }
+    async read(req, res) {
+        try {
+            const clientes = await this.database.query('SELECT * FROM clients');
+            return res.status(200).json(clientes.rows);
+        } catch (error) {
+            return res.status(400).json({ message: error.message });
+        }
+    }
+
 }
 module.exports = new ClientsController();

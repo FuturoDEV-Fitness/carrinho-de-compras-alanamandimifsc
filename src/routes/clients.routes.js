@@ -5,5 +5,5 @@ const validateClient = require('../middleware/validateClient');
 const clientsRoutes = Router();
 
 clientsRoutes.post('/', validateClient, ClientsController.create.bind(ClientsController));
-
+clientsRoutes.get('/', ClientsController.read.bind(ClientsController));
 module.exports = clientsRoutes;
