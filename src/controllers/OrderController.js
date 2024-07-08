@@ -22,7 +22,7 @@ class OrderController extends Database {
 
             const query = `
                 UPDATE orders
-                SET adress = $1, observations = $2, total = $3
+                SET adress = $1, observations = $2, total = $3, status = 'Finalizado'
                 WHERE id = $4 AND client_id = $5
                 RETURNING *;
             `;
