@@ -27,6 +27,9 @@ class OrderController extends Database {
                 RETURNING *;
             `;
             const order = await this.database.query(query, [address, observations, price, id, client_id]);
+            if (order.rowCount === 0) {
+                return res.status(400).json({ message: 'Pedido não encontrado' });
+            }
             return res.status(201).json(order.rows[0]);
         } catch (error) {
             return res.status(400).json({ message: error.message });
