@@ -96,6 +96,9 @@ curl -X POST http://localhost:3000/client -H "Content-Type: application/json" -d
     "price": "2567"
 }'
 ```
+
+Para criar um produto é obrigatório fornecer o name e category_id os demais dados: amount, color, voltage, description e price são opcionais, vale lembrar que a não inserção de alguns dados como por exemplo o preço, o produto sairá de graça.
+
 ### Listar Produtos
  ```bash
  curl http://localhost:3000/product
@@ -114,7 +117,7 @@ curl -X POST http://localhost:3000/order -H "Content-Type: application/json" -d 
     "client_id": 1,
     "address": "Rua Exemplo, 123",
     "observations": "Entregar após as 18h",
-    "status": "Em andamento"
+    "id":18
 }'
 ```
 
