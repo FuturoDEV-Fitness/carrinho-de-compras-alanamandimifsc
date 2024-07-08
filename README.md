@@ -92,7 +92,8 @@ curl -X POST http://localhost:3000/client -H "Content-Type: application/json" -d
  curl -X POST http://localhost:3000/product -H "Content-Type: application/json" -d '{
     "name": "TV",
     "voltage": "220",
-    "category_id": 1
+    "category_id": 1,
+    "price": "2567"
 }'
 ```
 ### Listar Produtos
@@ -129,7 +130,7 @@ curl -X POST http://localhost:3000/order-item \
         "order_id": 12
       }'
 ```
-
+Sempre que for a primeiro item do pedido(carrinho) daquele cliente é necessário passar o order_id=0 pois o sistema irá gerar um id pedido.
 
 
 Esta documentação fornece uma visão geral dos endpoints disponíveis e suas funcionalidades na API. Certifique-se de configurar corretamente as variáveis de ambiente e utilizar os middlewares e controladores correspondentes para cada rota.

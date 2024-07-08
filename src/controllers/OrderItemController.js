@@ -34,12 +34,20 @@ class OrderItemController extends Database {
                 return res.status(400).json({ message: 'Cliente não encontrado' });
             }
 
+
             let newOrderId = order_id;
             if (order_id === 0) {
-                console.log('entrou');
-                const orderQuery = `INSERT INTO orders (client_id) VALUES ($1) RETURNING id;`;
-                const orderResult = await this.database.query(orderQuery, [client_id]);
+                const verifica = await this.database.query('SELECT * FROM orders WHERE client_id = $1 AND status = $2', [client_id, "Em andamento"]);
+                if (verifica.rowCount > 0) {
+                    return res.status(400).json({ message: 'Cliente já possui um pedido em andamento' });
+                }
+                const orderQuery = `INSERT INTO orders (client_id, status) VALUES ($1, $2) RETURNING id;`;
+                const orderResult = await this.database.query(orderQuery, [client_id, "Em andamento"]);
                 newOrderId = orderResult.rows[0].id;
+            }
+            const verificaOrder = await this.database.query('SELECT * FROM orders WHERE client_id = $1 and id=$2', [client_id, newOrderId]);
+            if (verificaOrder.rowCount === 0) {
+                return res.status(400).json({ message: 'Pedido não encontrado' });
             }
 
             const orderItem = await this.addItem(product_id, amount, newOrderId);
